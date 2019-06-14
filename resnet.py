@@ -122,7 +122,7 @@ def convolutionalBlock(f, filters, stage, block, s=2):
                             name=conv_name_base + '1',
                             kernel_initializer=glorot_uniform(seed=0))(X_shortcut)
         X_shortcut = BatchNormalization(
-            axiss=3, name=bn_name_base + '1')(X_shortcut)
+            axis=3, name=bn_name_base + '1')(X_shortcut)
 
         # Final step: Add shortcut value to main path. and pass it through a RELU activation
         X = Add()([X, X_shortcut])
