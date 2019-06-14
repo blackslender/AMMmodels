@@ -194,7 +194,7 @@ model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
-          callbacks = callbacks
+          callbacks = callbacks,
           validation_split=0.2)
 
 score = model.evaluate(x_test, y_test, verbose=0)
