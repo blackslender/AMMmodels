@@ -6,7 +6,7 @@ from keras.initializers import glorot_uniform
 import numpy as np
 
 # Properties
-batch_size = 128
+batch_size = 32
 epochs = 500
 
 from keras.datasets import cifar10
@@ -40,7 +40,7 @@ def identityBlock(f, filters, stage, block):
                 name=conv_name_base + '2a',
                 kernel_initializer=glorot_uniform(seed=0))(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2a')(X)
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
         # Second component of main path
         X = Conv2D(filters=F2,
@@ -50,7 +50,7 @@ def identityBlock(f, filters, stage, block):
                 name=conv_name_base + '2b',
                 kernel_initializer=glorot_uniform(seed=0))(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2b')(X)
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
         # Third component of main path
         X = Conv2D(filters=F3,
@@ -60,11 +60,11 @@ def identityBlock(f, filters, stage, block):
                 name=conv_name_base + '2c',
                 kernel_initializer=glorot_uniform(seed=0))(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2c')(X)
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
-        # Final step: Add shortcut value to main path and pass it through a RELU activation
+        # Final step: Add shortcut value to main path and pass it through a selu activation
         X = Add()([X, X_shortcut])
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
         return X
     return func
 
@@ -91,7 +91,7 @@ def convolutionalBlock(f, filters, stage, block, s=2):
                 name=conv_name_base + '2a',
                 kernel_initializer=glorot_uniform(seed=0))(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2a')(X)
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
         # Second component of main path
         X = Conv2D(filters=F2,
@@ -101,7 +101,7 @@ def convolutionalBlock(f, filters, stage, block, s=2):
                 name=conv_name_base + '2b',
                 kernel_initializer=glorot_uniform(seed=0))(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2b')(X)
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
         # Third component of main path
         X = Conv2D(filters=F3,
@@ -111,7 +111,7 @@ def convolutionalBlock(f, filters, stage, block, s=2):
                 name=conv_name_base + '2c',
                 kernel_initializer=glorot_uniform(seed=0))(X)
         X = BatchNormalization(axis=3, name=bn_name_base + '2c')(X)
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
         ### SHORTCUT PATH ###
         X_shortcut = Conv2D(filters=F3,
@@ -123,9 +123,9 @@ def convolutionalBlock(f, filters, stage, block, s=2):
         X_shortcut = BatchNormalization(
             axis=3, name=bn_name_base + '1')(X_shortcut)
 
-        # Final step: Add shortcut value to main path. and pass it through a RELU activation
+        # Final step: Add shortcut value to main path. and pass it through a selu activation
         X = Add()([X, X_shortcut])
-        X = Activation('relu')(X)
+        X = Activation('selu')(X)
 
         return X
     return func
@@ -143,7 +143,7 @@ def resnet50(input_shape=(64, 64, 3), classes=6):
     X = Conv2D(64, kernel_size=(7, 7), strides=(2, 2), name='conv1',
                kernel_initializer=glorot_uniform(seed=0))(X)
     X = BatchNormalization(axis=3, name='bn_conv1')(X)
-    X = Activation('relu')(X)
+    X = Activation('selu')(X)
     X = MaxPooling2D((3, 3), strides=(2, 2))(X)
 
     # Stage 2
