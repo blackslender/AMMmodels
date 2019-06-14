@@ -119,7 +119,7 @@ def convolutionalBlock(f, filters, stage, block, s=2):
                             kernel_size=(1, 1),
                             strides=(s, s),
                             padding='valid',
-                            name=conv_name_base + '1',
+                            name=conv_name_base + '1',  
                             kernel_initializer=glorot_uniform(seed=0))(X_shortcut)
         X_shortcut = BatchNormalization(
             axis=3, name=bn_name_base + '1')(X_shortcut)
@@ -148,9 +148,9 @@ def resnet50(input_shape=(64, 64, 3), classes=6):
     X = MaxPooling2D((3, 3), strides=(2, 2))(X)
 
     # Stage 2
-    X = convolutionalBlock(f=3,filters = [64,64,256],stage=2,block='a',s=1)(X)
-    X = identityBlock(3, [64,64,256], stage = 2, block='b')
-    X = identityBlock(3, [64,64,256], stage = 2, block='c')
+    X = convolutionalBlock(f=3, filters = [64,64,256],   stage=2, block='a', s=1)(X)
+    X = identityBlock(3, [64,64,256], stage = 2, block='b')(X)
+    X = identityBlock(3, [64,64,256], stage = 2, block='c')(X)
 
     # Stage 3
     X = convolutionalBlock(f=3, filters=[128, 128, 512], stage=3, block='a', s=2)(X)
