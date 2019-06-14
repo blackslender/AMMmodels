@@ -6,7 +6,7 @@ from keras.initializers import glorot_uniform
 import numpy as np
 
 # Properties
-batch_size = 32
+batch_size = 128
 epochs = 500
 
 from keras.datasets import cifar10
@@ -189,7 +189,7 @@ def resnet50(input_shape=(64, 64, 3), classes=6):
 model = resnet50(input_shape=(32,32,3),classes=num_classes)
 
 callbacks = [
-    keras.callbacks.EarlyStopping(monitor='val_loss',min_delta=0,patience=5,mode='auto')
+    keras.callbacks.EarlyStopping(monitor='val_loss',min_delta=0,patience=10,mode='auto')
 ]
 
 # Fit the model to dataset
