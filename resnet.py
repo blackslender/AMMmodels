@@ -180,7 +180,11 @@ def resnet50(input_shape=(64, 64, 3), classes=6):
     
     # Create model
     model = Model(inputs = X_input, outputs = X, name='ResNet50')
-
+    
+    # The model should be compiled before training
+    model.compile(loss=keras.losses.categorical_crossentropy,
+                  optimizer=keras.optimizers.Adadelta(),
+                  metrics=['accuracy'])
     return model
 
 model = resnet50(input_shape=(28,28,1),classes=num_classes)
