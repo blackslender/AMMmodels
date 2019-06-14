@@ -186,7 +186,7 @@ def resnet50(input_shape=(64, 64, 3), classes=6):
                   metrics=['accuracy'])
     return model
 
-model = resnet50(input_shape=(28,28,1),classes=num_classes)
+model = resnet50(input_shape=(32,32,3),classes=num_classes)
 
 callbacks = [
     keras.callbacks.EarlyStopping(monitor='val_loss',min_delta=0,patience=5,mode='auto')
